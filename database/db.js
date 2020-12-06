@@ -1,32 +1,35 @@
 const { MongoClient } = require('mongodb');
-const dbWrapper = require('./utils');
 
 const connectDB = async () => {
   const myDB = {};
   const uri = 'mongodb://localhost:27017';
 
-  // used by anonymous visitors and logged in users
+  // used by anonymous visitors and logged-in users
   myDB.getPosts = async () => {
-    let result;
-    await dbWrapper(async (db) => {
-      const col = db.collection('posts');
-      const query = {};
-      result = col.find(query).sort({ _id: -1 }).toArray();
-    });
-    return result;
-  };
-
-  // only used by admin
-  myDB.addPost = async (newPost) => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
     const db = client.db('craigslist_database');
     const col = db.collection('posts');
-    return await col.insertOne(newPost).finally(() => client.close());
+
+    const query = {};
+    return col
+      .find(query)
+      .sort({ _id: -1 })
+      .toArray()
+      .finally(() => client.close());
   };
 
-  // used by anonymous visitors and logged in users
-  // update the viewed history of each post with record
+  // only used by admin, batch import function
+  myDB.addPosts = async (newPosts) => {
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    await client.connect();
+    const db = client.db('craigslist_database');
+    const col = db.collection('posts');
+    return await col.insertMany(newPosts).finally(() => client.close());
+  };
+
+  // used by anonymous visitors and logged-in users
+  // update the viewed history of each post
   myDB.updatePost = async (documentID, record) => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
@@ -52,4 +55,4 @@ const connectDB = async () => {
   return myDB;
 };
 
-module.exports = connectDB();
+module.exports = connectDB;
