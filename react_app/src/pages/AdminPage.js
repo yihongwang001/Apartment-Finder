@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import { Button } from '@material-ui/core';
+import { Container, Row, Col, Form } from 'react-bootstrap';
+
+import '../style/AdminPage.css';
 
 function AdminPage() {
   const [file, setFile] = useState(null);
@@ -34,13 +36,35 @@ function AdminPage() {
       });
   };
   return (
-    <div className="mb-3">
-      <Form.File id="formcheck-api-regular">
-        <Form.File.Label>Import Json</Form.File.Label>
-        <Form.File.Input onChange={handleFileSelected} />
-        <Button onClick={() => uploadJson()}>upload</Button>
-      </Form.File>
-    </div>
+    <Container className="adminPage">
+      <h1>Welcome, Administrator</h1>
+      <p className="instruction">
+        Instructions:
+        <br />
+        <strong>Add posts</strong> - Import posts by uploading a json file
+        <br />
+        <strong>Delete posts</strong> - Go to delete in the home page
+      </p>
+
+      <Row fluid className="updateField">
+        <Col className="uploadButton">
+          <Form.File>
+            <Form.File.Input onChange={handleFileSelected} />
+          </Form.File>
+        </Col>
+
+        <Col>
+          <Button
+            variant="outlined"
+            color="primary"
+            size="small"
+            onClick={() => uploadJson()}
+          >
+            upload
+          </Button>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

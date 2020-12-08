@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 
 import { MDBDataTableV5 } from 'mdbreact';
+import FilterBar from '../components/FilterBar';
 
 import '../style/SummaryPage.css';
 
 function SummaryPage() {
   const [posts, setPosts] = useState([]);
+  const [fetchUrl, setFetchUrl] = useState('/posts');
 
   const getPosts = async () => {
     let posts = [];
     try {
-      posts = await fetch('/posts').then((res) => res.json());
+      posts = await fetch(fetchUrl).then((res) => res.json());
       for (let i = 0; i < posts.length; i++) {
         let url = '/posts/details/'.concat(posts[i]._id);
         posts[i].title = (
@@ -24,6 +26,7 @@ function SummaryPage() {
             {posts[i].title}
           </a>
         );
+        if (posts[i].area === 0) posts[i].area = '';
       }
       console.log(`${posts.length} posts returned in the response.`);
     } catch (err) {
@@ -34,7 +37,7 @@ function SummaryPage() {
 
   useEffect(() => {
     getPosts();
-  }, []); // Only run the first time
+  }, [fetchUrl]); // Only run the first time
 
   const table = {
     columns: [
@@ -50,7 +53,7 @@ function SummaryPage() {
         width: 100,
       },
       {
-        label: 'Price',
+        label: 'Price($)',
         field: 'price',
         sort: 'asc',
         width: 50,
@@ -62,13 +65,13 @@ function SummaryPage() {
         width: 50,
       },
       {
-        label: 'Area',
+        label: 'Area(sqft)',
         field: 'area',
         sort: 'asc',
         width: 50,
       },
       {
-        label: 'Post time',
+        label: 'Post Time',
         field: 'date',
         sort: 'desc',
         width: 100,
@@ -80,14 +83,22 @@ function SummaryPage() {
   return (
     <Container>
       <div>
-        <h1>This is the posting summary page</h1>
+        <div className="greetingHeader">
+          <h1>Find your home today!</h1>
+          <p>
+            We provide the lastest posts from https://sfbay.craigslist.org/. You
+            can find your ideal apartment here.
+          </p>
+        </div>
+        <FilterBar updateFetchUrl={setFetchUrl} />
         <MDBDataTableV5
           className="summaryTable"
           hover
           striped
           bordered
           small
-          info={false}
+          entriesOptions={[10, 20, 50]}
+          entries={10}
           data={table}
         />
       </div>

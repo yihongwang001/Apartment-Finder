@@ -1,0 +1,21 @@
+.mainContent {
+  margin: 20px 10px;
+}
+.postTitle {
+  margin-top: 20px;
+  font-size: larger;
+  font-weight: bold;
+}
+
+.moreInfo {
+  margin-bottom: 10px;
+}
+
+.address {
+  margin-right: 10px;
+}
+
+.tags {
+  margin: 2px 4px;
+  padding: 5px 10px;
+}

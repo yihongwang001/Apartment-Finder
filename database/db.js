@@ -1,20 +1,33 @@
 const { MongoClient } = require('mongodb');
+const ObjectID = require('mongodb').ObjectID;
 
 const connectDB = async () => {
   const myDB = {};
   const uri = 'mongodb://localhost:27017';
 
   // used by anonymous visitors and logged-in users
-  myDB.getPosts = async () => {
+  myDB.getPosts = async (query) => {
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    await client.connect();
+    const db = client.db('craigslist_database');
+    const col = db.collection('posts');
+    return col
+      .find(query)
+      .sort({ _id: -1 })
+      .toArray()
+      .finally(() => client.close());
+  };
+
+  // get one single post using its id in the database
+  myDB.getSinglePost = async (postID) => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
     const db = client.db('craigslist_database');
     const col = db.collection('posts');
 
-    const query = {};
+    const query = { _id: ObjectID(postID) };
     return col
       .find(query)
-      .sort({ _id: -1 })
       .toArray()
       .finally(() => client.close());
   };

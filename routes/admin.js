@@ -16,31 +16,42 @@ const generateNewPosts = () => {
     const imageList = post['images'];
     if (imageList.length !== 0) {
       for (let i = 0; i < imageList.length; i++) {
-        // modify _50x50c.jpg to _1200x900.jpg
-        imageList[i] = imageList[i].replace('_50x50c', '_1200x900');
+        // modify _50x50c.jpg to _600x450.jpg
+        imageList[i] = imageList[i].replace('_50x50c', '_600x450');
       }
     }
     const housing = post['housing']; // "/ 3br - 2000ft"
     let br = null;
-    let squareft = null;
-    if (housing != null) {
+    let squareftInt = 0;
+    if (housing !== null) {
       br = housing.substring(2, housing.indexOf('-') - 1);
-      sft = housing.substring(housing.indexOf('-') + 2);
+      sft = housing.substring(housing.indexOf('-') + 2).replace(' ', '');
+      console.log('======================');
+      console.log(sft);
+      console.log(sft.length);
+      if ((sft !== null) & (sft.length !== 0)) {
+        squareftInt = parseInt(sft.replace(/\D/g, '')); // convert "749ft" to 749
+      }
+      console.log(squareftInt);
+      // if (squareftInt === NaN) squareftInt = 0;
     }
 
     let resulthood = post['result-hood'];
     resulthood = resulthood.substring(2, resulthood.length - 1);
 
+    let priceString = post['result-price']; // convert "$7,995" to 7995
+    let priceInt = parseInt(priceString.replace('$', '').replace(',', ''));
+
     const postItem = {
       title: post['result-title'],
       mapAddress: post['mapaddress'],
-      price: post['result-price'],
+      price: priceInt,
       region: resulthood,
-      date: post['postinginfo'].match(/\d{4}\-\d{2}\-\d{2} \d{2}:\d{2}/),
+      date: post['postinginfo'].match(/\d{4}\-\d{2}\-\d{2} \d{2}:\d{2}/)[0],
       contentHTML: post['postingbody'],
       images: imageList,
       bedroom: br,
-      area: squareft,
+      area: squareftInt,
     };
     parsedPosts.push(postItem);
   }

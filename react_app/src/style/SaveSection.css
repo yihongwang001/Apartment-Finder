@@ -1,0 +1,13 @@
+.message {
+  font-size: large;
+  margin: 20px 0 5px 0;
+}
+
+.saveIcon {
+  /* color: #551a8b; */
+  color: #388e3c;
+}
+
+.commentSection {
+  margin-top: 20px;
+}

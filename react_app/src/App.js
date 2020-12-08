@@ -11,16 +11,18 @@ import AdminPage from './pages/AdminPage';
 // import LoginPage from './pages/LoginPage';
 import PostSummaryPage from './pages/SummaryPage';
 import PostDetailsPage from './pages/DetailsPage';
+import NavBar from './components/NavBar';
 // import WatchListPage from './pages/WatchListPage';
 
 function App() {
   return (
     <Router>
       <div className="App"></div>
+      <NavBar />
       <div>
         <Switch>
           <Route path="/" component={PostSummaryPage} exact />
-          <Route path="/posts/details" component={PostDetailsPage} />
+          <Route path="/posts/details/:id" component={PostDetailsPage} />
           <Route path="/admin" component={AdminPage} />
         </Switch>
       </div>

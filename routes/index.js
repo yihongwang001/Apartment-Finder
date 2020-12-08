@@ -4,17 +4,28 @@ const connectDB = require('../database/db');
 
 // get all posts without any filter
 router.get('/posts', async (req, res) => {
-  console.log('entered');
+  let dbQuery = {};
+  let query = req.query;
+  if (Object.keys(req.query).length !== 0) {
+    dbQuery = {
+      price: {
+        $gte: parseInt(query.priceLow),
+        $lte: parseInt(query.priceHigh),
+      },
+      area: { $gte: parseInt(query.area) },
+      date: { $gte: query.startDate, $lte: query.endDate },
+      bedroom: { $gte: query.bedroom.concat('br') },
+    };
+  }
   const myDB = await connectDB();
-  const data = await myDB.getPosts();
+  const data = await myDB.getPosts(dbQuery);
   res.json(data);
 });
 
-// get a particular post
-router.get('posts/details/:id', async (req, res) => {
+// get a single post given its id
+router.get('/posts/details/:id', async (req, res) => {
   const myDB = await connectDB();
-  const postID = req.postID;
-  const data = await myDB.getSinglePost(postID);
+  const data = await myDB.getSinglePost(req.params.id);
   res.json(data);
 });
 
