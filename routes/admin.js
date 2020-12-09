@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var fs = require('fs');
+const express = require('express');
+const router = express.Router();
+const fs = require('fs');
 const connectDB = require('../database/db');
 
 // this function will read a given file and parse the information
@@ -26,14 +26,9 @@ const generateNewPosts = () => {
     if (housing !== null) {
       br = housing.substring(2, housing.indexOf('-') - 1);
       sft = housing.substring(housing.indexOf('-') + 2).replace(' ', '');
-      console.log('======================');
-      console.log(sft);
-      console.log(sft.length);
       if ((sft !== null) & (sft.length !== 0)) {
         squareftInt = parseInt(sft.replace(/\D/g, '')); // convert "749ft" to 749
       }
-      console.log(squareftInt);
-      // if (squareftInt === NaN) squareftInt = 0;
     }
 
     let resulthood = post['result-hood'];

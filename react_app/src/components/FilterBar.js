@@ -71,7 +71,7 @@ const FilterBar = (props) => {
       alert('Start date should less than or equal to end date!');
       return;
     }
-    var params = {
+    let params = {
       priceLow: price[0],
       priceHigh: price[1],
       bedroom: bedroom,

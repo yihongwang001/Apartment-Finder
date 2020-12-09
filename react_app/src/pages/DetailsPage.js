@@ -33,7 +33,7 @@ function DetailsPage() {
 
   useEffect(() => {
     initPage();
-  }, []); // Only run the first time
+  }, []);
 
   return (
     <div>
