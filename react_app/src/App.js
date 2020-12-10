@@ -22,6 +22,7 @@ function App() {
     loggedIn: false,
     username: null,
     userId: null,
+    adminAccess: false,
   };
 
   const localUser = localStorage.getItem('loginInfo');
@@ -29,11 +30,12 @@ function App() {
 
   const [loggedIn, setLoggedIn] = useState(loginInfo);
 
-  const setLoggedInHelper = (loggedIn, username, userId) => {
+  const setLoggedInHelper = (loggedIn, username, userId, adminAccess) => {
     const loginObj = {
       loggedIn: loggedIn,
       username: username,
       userId: userId,
+      adminAccess: adminAccess,
     };
     localStorage.setItem('loginInfo', JSON.stringify(loginObj));
     setLoggedIn(loginObj);

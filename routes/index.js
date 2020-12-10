@@ -26,6 +26,16 @@ router.get('/posts', async (req, res) => {
 router.get('/posts/details/:id', async (req, res) => {
   const myDB = await connectDB();
   const data = await myDB.getSinglePost(req.params.id);
+  let comment = null;
+
+  if (req.user && req.user._id) {
+    result = await myDB.getSaveList(req.user._id.toString(), req.params.id);
+    console.log(result);
+    if (result && result.length > 0) {
+      comment = result[0].comment;
+    }
+  }
+  data[0].comment = comment;
   res.json(data);
 });
 

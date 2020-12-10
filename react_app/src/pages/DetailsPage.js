@@ -62,7 +62,7 @@ function DetailsPage() {
             <div dangerouslySetInnerHTML={{ __html: post.contentHTML }} />
           </Col>
           <Col lg={3}>
-            <SaveSection />
+            <SaveSection postId={id} comment={post.comment} />
           </Col>
         </Row>
       </Container>

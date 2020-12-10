@@ -1,23 +1,19 @@
 import React, { useContext } from 'react';
-// import { useHistory } from 'react-router-dom';
 import { Button, Nav, Navbar } from 'react-bootstrap';
 import LoggedIn from '../components/LoginContext';
 import '../style/NavBar.css';
 
 const NavBar = () => {
   const { loggedIn, setLoggedInHelper } = useContext(LoggedIn);
-  // const history = useHistory();
 
   const handleClick = async () => {
     if (!loggedIn.loggedIn) {
-      // history.push('/login');
       window.location.href = '/login';
     } else {
       const response = await fetch('/auth/logout');
 
       if (response.status === 200) {
-        setLoggedInHelper(false, null, null, null);
-        // history.push('/');
+        setLoggedInHelper(false, null, null, [], false);
         window.location.href = '/';
       } else {
         alert('Failed to log out. Please contact the developer.');

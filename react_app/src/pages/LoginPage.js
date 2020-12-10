@@ -51,9 +51,14 @@ const LoginPage = (props) => {
     console.log(responseJson);
 
     if (response.status === 200) {
-      setLoggedInHelper(true, responseJson.username, responseJson.userId);
+      setLoggedInHelper(
+        true,
+        responseJson.username,
+        responseJson.userId,
+        responseJson.adminAccess
+      );
     } else {
-      setLoggedInHelper(false, null, null);
+      setLoggedInHelper(false, null, null, [], false);
       setErrorMessage('Incorrect username or password');
       emailRef.current.value = '';
       passwordRef.current.value = '';

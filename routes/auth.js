@@ -22,25 +22,11 @@ router.post('/login', (req, res, next) => {
         message: 'Authorized',
         username: user.username,
         userId: user._id.toString(),
+        adminAccess: user.adminAccess,
       });
     });
   })(req, res, next);
 });
-
-// router.post(
-//   "/login",
-//   passport.authenticate("local", {
-//     failureRedirect: "/login?msg='Error auth'",
-//   }),
-//   function (req, res) {
-//     console.log("Logged in", req.body);
-//     res.redirect("/");
-//   }
-// );
-
-// router.get("/getUser", (req, res) =>
-//   res.send({ username: req.user ? req.user.username : null })
-// );
 
 router.get('/logout', (req, res) => {
   try {
@@ -51,13 +37,5 @@ router.get('/logout', (req, res) => {
     res.status(500).json({ message: `Internal error: ${err}` });
   }
 });
-
-// router.get('/authenticated', (req, res) => {
-//   if (req.isAuthenticated()) {
-//     res.status(200).json({ authenticated: true });
-//   } else {
-//     res.status(200).json({ authenticated: false });
-//   }
-// });
 
 module.exports = router;

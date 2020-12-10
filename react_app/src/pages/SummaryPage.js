@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Container } from 'react-bootstrap';
 
 import { MDBDataTableV5, MDBInput } from 'mdbreact';
 import FilterBar from '../components/FilterBar';
 
-import { Button } from '@material-ui/core';
+import { Button, Container } from '@material-ui/core';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
 import '../style/SummaryPage.css';
 
 function SummaryPage() {
@@ -38,6 +38,7 @@ function SummaryPage() {
             target="_blank"
             rel="noreferrer"
           >
+            <WhatshotIcon className="hotIcon" />
             {posts[i].title}
           </a>
         );
@@ -95,6 +96,7 @@ function SummaryPage() {
     },
   ];
 
+  // // if it's not the admin, delete the first column
   // colums.shift();
   const table = {
     columns: colums,
@@ -102,8 +104,6 @@ function SummaryPage() {
   };
 
   const toggleCheckbox = (id) => {
-    console.log(id);
-
     if (deleteList.includes(id)) {
       const index = deleteList.indexOf(id);
       if (index > -1) {
@@ -112,7 +112,6 @@ function SummaryPage() {
     } else {
       deleteList.push(id);
     }
-    console.log(deleteList);
     setChecked(deleteList);
   };
 
@@ -128,9 +127,6 @@ function SummaryPage() {
         }),
       }).then((res) => res.json());
       if (result.success) {
-        // getPosts again
-
-        // clear the ids in the deleteList
         setChecked([]);
         window.location.href = '/';
       } else {

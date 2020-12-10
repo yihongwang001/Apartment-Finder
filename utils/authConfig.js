@@ -6,8 +6,6 @@ const ObjectID = require('mongodb').ObjectID;
 const withDb = require('../database/dbUtils');
 
 function configPassport(app) {
-  console.log('configuring passport');
-
   const localVerify = async (email, password, done) => {
     let user;
     await withDb(async (db) => {

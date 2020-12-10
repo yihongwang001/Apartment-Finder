@@ -16,7 +16,6 @@ router.post('/register', async (req, res) => {
         email: req.body.email,
         password: hashedPwd,
         adminAccess: false,
-        savelist: [],
       });
     });
 
@@ -26,10 +25,5 @@ router.post('/register', async (req, res) => {
     res.status(500).json({ message: `Internal Error: ${err}` });
   }
 });
-
-// // update the user's saved post list
-// router.post("/updateSaveList", async (req, res, next) => {
-
-// });
 
 module.exports = router;

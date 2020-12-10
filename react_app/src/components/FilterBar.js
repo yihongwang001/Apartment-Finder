@@ -27,6 +27,10 @@ const FilterBar = (props) => {
     },
     dropdownSelector: {
       minWidth: 130,
+      marginRight: 10,
+    },
+    textField: {
+      marginRight: 10,
     },
     datePicker: {
       minWidth: 130,
@@ -168,14 +172,14 @@ const FilterBar = (props) => {
           }}
         />
       </Box>
-      <Box mt={2} ml={1} clone>
+      <Box mt={2} mr={2} clone>
         <Button variant="contained" color="primary" onClick={applyFilter}>
           Search
         </Button>
       </Box>
-      <Box mt={2} ml={1} clone>
+      <Box mt={2} mr={2} clone>
         <Button variant="contained" color="primary" onClick={clearFilter}>
-          Clear
+          Clear Filter
         </Button>
       </Box>
     </Box>

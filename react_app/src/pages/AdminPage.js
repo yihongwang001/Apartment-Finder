@@ -41,9 +41,10 @@ function AdminPage() {
       <p className="instruction">
         Instructions:
         <br />
-        <strong>Add posts</strong> - Import posts by uploading a json file
+        <strong>Add posts</strong> - Choose a json file and upload here
         <br />
-        <strong>Delete posts</strong> - Go to delete in the home page
+        <strong>Delete posts</strong> - Go to delete in the{' '}
+        <a href="/"> home page </a>
       </p>
 
       <Row fluid className="updateField">

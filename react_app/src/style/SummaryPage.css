@@ -15,3 +15,7 @@
 .titleURL:hover {
   text-decoration: underline;
 }
+
+.hotIcon {
+  color: #ff3d00;
+}
