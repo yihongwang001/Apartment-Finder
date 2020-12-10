@@ -1,27 +1,29 @@
 import React, { useContext } from 'react';
 // import { useHistory } from 'react-router-dom';
 import { Button, Nav, Navbar } from 'react-bootstrap';
-// import LoggedIn from '../components/LoginContext';
+import LoggedIn from '../components/LoginContext';
 import '../style/NavBar.css';
 
 const NavBar = () => {
-  //   const { loggedIn, setLoggedInHelper } = useContext(LoggedIn);
-  //   const history = useHistory();
+  const { loggedIn, setLoggedInHelper } = useContext(LoggedIn);
+  // const history = useHistory();
 
-  //   const handleClick = async () => {
-  //     if (!loggedIn.loggedIn) {
-  //       history.push('/login');
-  //     } else {
-  //       const response = await fetch('/auth/logout');
+  const handleClick = async () => {
+    if (!loggedIn.loggedIn) {
+      // history.push('/login');
+      window.location.href = '/login';
+    } else {
+      const response = await fetch('/auth/logout');
 
-  //       if (response.status === 200) {
-  //         setLoggedInHelper(false, null, null, null);
-  //         history.push('/');
-  //       } else {
-  //         alert('Failed to log out. Please contact the developer.');
-  //       }
-  //     }
-  //   };
+      if (response.status === 200) {
+        setLoggedInHelper(false, null, null, null);
+        // history.push('/');
+        window.location.href = '/';
+      } else {
+        alert('Failed to log out. Please contact the developer.');
+      }
+    }
+  };
 
   return (
     <Navbar className="navbar" bg="light" expand="lg">
@@ -31,16 +33,11 @@ const NavBar = () => {
           <Nav.Link href="/">Home</Nav.Link>
         </Nav.Item>
         <Nav.Item as="li" className="p-1">
-          <Nav.Link href="/shipment-list">My Shipments</Nav.Link>
+          <Nav.Link href="/admin">Admin Page</Nav.Link>
         </Nav.Item>
       </Nav>
-      <Button
-        variant="outline-secondary"
-        // onClick={handleClick}
-        className="p-1"
-      >
-        Sign In
-        {/* {loggedIn.loggedIn ? 'Sign Out' : 'Sign In'} */}
+      <Button variant="outline-secondary" onClick={handleClick}>
+        {loggedIn.loggedIn ? 'Sign Out' : 'Sign In'}
       </Button>
     </Navbar>
   );

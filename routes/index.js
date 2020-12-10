@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const connectDB = require('../database/db');
 
-// get all posts without any filter
+// get all posts with query passed from client-side
 router.get('/posts', async (req, res) => {
   let dbQuery = {};
   let query = req.query;

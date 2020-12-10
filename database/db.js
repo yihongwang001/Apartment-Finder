@@ -10,8 +10,8 @@ const connectDB = async () => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
     const db = client.db('craigslist_database');
-    const col = db.collection('posts');
-    return col
+    return db
+      .collection('posts')
       .find(query)
       .sort({ _id: -1 })
       .toArray()
@@ -23,11 +23,9 @@ const connectDB = async () => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
     const db = client.db('craigslist_database');
-    const col = db.collection('posts');
-
-    const query = { _id: ObjectID(postID) };
-    return col
-      .find(query)
+    return db
+      .collection('posts')
+      .find({ _id: ObjectID(postID) })
       .toArray()
       .finally(() => client.close());
   };
@@ -37,8 +35,10 @@ const connectDB = async () => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
     const db = client.db('craigslist_database');
-    const col = db.collection('posts');
-    return await col.insertMany(newPosts).finally(() => client.close());
+    return await db
+      .collection('posts')
+      .insertMany(newPosts)
+      .finally(() => client.close());
   };
 
   // used by anonymous visitors and logged-in users
@@ -47,22 +47,27 @@ const connectDB = async () => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
     const db = client.db('craigslist_database');
-    const col = db.collection('posts');
-
     const filter = { _id: ObjectID(documentID) };
     const updateDoc = { $set: { viewed: record } };
-    return col.updateOne(filter, updateDoc).finally(() => client.close());
+    return db
+      .collection('posts')
+      .updateOne(filter, updateDoc)
+      .finally(() => client.close());
   };
 
   // only used by admin
-  myDB.deletePost = async (documentID) => {
+  myDB.deletePosts = async (deleteList) => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
     const db = client.db('craigslist_database');
-    const col = db.collection('posts');
-
-    const query = { _id: ObjectID(documentID) };
-    return await col.deleteOne(query).finally(() => client.close());
+    const documentIDs = [];
+    for (let i = 0; i < deleteList.length; i++) {
+      documentIDs.push(ObjectID(deleteList[i]));
+    }
+    return await db
+      .collection('posts')
+      .deleteMany({ _id: { $in: documentIDs } })
+      .finally(() => client.close());
   };
 
   return myDB;

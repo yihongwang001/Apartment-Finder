@@ -78,4 +78,15 @@ router.post('/import', async (req, res) => {
   });
 });
 
+router.delete('/delete', async (req, res) => {
+  const myDB = await connectDB();
+  const deleteList = req.body.deleteList;
+  const dbResult = await myDB.deletePosts(deleteList);
+  if (dbResult.result.ok === 1) {
+    res.json({ success: true });
+  } else {
+    res.json({ success: false });
+  }
+});
+
 module.exports = router;
