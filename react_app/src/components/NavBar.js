@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
-import { Button, Nav, Navbar } from 'react-bootstrap';
+import { Nav, Navbar } from 'react-bootstrap';
 import LoggedIn from '../components/LoginContext';
+import { Button } from '@material-ui/core';
+
 import '../style/NavBar.css';
 
 const NavBar = () => {
@@ -22,17 +24,17 @@ const NavBar = () => {
   };
 
   return (
-    <Navbar className="navbar" bg="light" expand="lg">
+    <Navbar className="navbar" bg="light" sticky="top">
       <Navbar.Brand href="/">Apt Finder</Navbar.Brand>
       <Nav className="mr-auto">
         <Nav.Item as="li" className="p-1">
-          <Nav.Link href="/">Home</Nav.Link>
+          <Nav.Link href="/savelist">Save List</Nav.Link>
         </Nav.Item>
         <Nav.Item as="li" className="p-1">
           <Nav.Link href="/admin">Admin Page</Nav.Link>
         </Nav.Item>
       </Nav>
-      <Button variant="outline-secondary" onClick={handleClick}>
+      <Button onClick={handleClick}>
         {loggedIn.loggedIn ? 'Sign Out' : 'Sign In'}
       </Button>
     </Navbar>

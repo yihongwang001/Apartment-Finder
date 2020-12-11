@@ -15,16 +15,17 @@ function SummaryPage() {
 
   const getPosts = async () => {
     let posts = [];
+    let checkboxStyle = { 'margin-top': '-0.4rem' };
     try {
       posts = await fetch(fetchUrl).then((res) => res.json());
       for (let i = 0; i < posts.length; i++) {
         // add a checkbox for each post
-        let check_id = 'checkbox_'.concat(posts[i]._id);
         posts[i].check = (
           <MDBInput
             label=" "
             type="checkbox"
-            id={check_id}
+            className="deleteCheckbox"
+            style={checkboxStyle}
             onClick={() => toggleCheckbox(posts[i]._id)}
           />
         );

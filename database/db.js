@@ -74,11 +74,22 @@ const connectDB = async () => {
 
   /* PART2: methods for savelists collection, CRUD included */
 
-  myDB.getSaveList = async (userId, postId) => {
+  // myDB.getSaveList = async (userId, postId) => {
+  //   const client = new MongoClient(uri, { useUnifiedTopology: true });
+  //   await client.connect();
+  //   const db = client.db('craigslist_database');
+  //   let query = { userId: userId, postId: postId };
+  //   return db
+  //     .collection('savelists')
+  //     .find(query)
+  //     .toArray()
+  //     .finally(() => client.close());
+  // };
+
+  myDB.getSaveList = async (query) => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
     const db = client.db('craigslist_database');
-    let query = { userId: userId, postId: postId };
     return db
       .collection('savelists')
       .find(query)

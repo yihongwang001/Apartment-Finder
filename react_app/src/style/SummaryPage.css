@@ -19,3 +19,7 @@
 .hotIcon {
   color: #ff3d00;
 }
+
+.form-control .form-check-input .deleteCheckbox {
+  margin-top: -0.3rem;
+}

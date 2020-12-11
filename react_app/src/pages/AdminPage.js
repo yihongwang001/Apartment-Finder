@@ -47,7 +47,7 @@ function AdminPage() {
         <a href="/"> home page </a>
       </p>
 
-      <Row fluid className="updateField">
+      <Row className="updateField">
         <Col className="uploadButton">
           <Form.File>
             <Form.File.Input onChange={handleFileSelected} />

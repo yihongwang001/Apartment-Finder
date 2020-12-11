@@ -7,7 +7,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import PostSummaryPage from './pages/SummaryPage';
 import PostDetailsPage from './pages/DetailsPage';
-// import WatchListPage from './pages/WatchListPage';
+import SaveListPage from './pages/SaveListPage';
 
 import NavBar from './components/NavBar';
 import LoggedIn from './components/LoginContext';
@@ -51,6 +51,7 @@ function App() {
             <Route path="/" component={PostSummaryPage} exact />
             <Route path="/posts/details/:id" component={PostDetailsPage} />
             <Route path="/admin" component={AdminPage} />
+            <Route path="/savelist" component={SaveListPage} />
             <Route path="/login" render={(props) => <LoginPage {...props} />} />
             <Route path="/register" component={RegisterPage} />
           </Switch>

@@ -29,8 +29,9 @@ router.get('/posts/details/:id', async (req, res) => {
   let comment = null;
 
   if (req.user && req.user._id) {
-    result = await myDB.getSaveList(req.user._id.toString(), req.params.id);
-    console.log(result);
+    let query = { userId: req.user._id.toString(), postId: req.params.id };
+    result = await myDB.getSaveList(query);
+    // result = await myDB.getSaveList(req.user._id.toString(), req.params.id);
     if (result && result.length > 0) {
       comment = result[0].comment;
     }
