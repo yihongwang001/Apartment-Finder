@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { Redirect, Link } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
-import '../style/RegisterPage.css';
+import { Form } from 'react-bootstrap';
+import { MDBBtn } from 'mdbreact';
 
 const RegisterPage = () => {
   const [username, setUsername] = useState('');
@@ -93,9 +93,9 @@ const RegisterPage = () => {
               <Link to="/login">Sign In</Link>
             </p>
 
-            <Button type="submit" className="btn btn-secondary my-4 btn-block">
-              Sign Up
-            </Button>
+            <MDBBtn type="submit" color="mdb-color" block>
+              Sign In
+            </MDBBtn>
           </Form>
         </div>
       </div>

@@ -19,6 +19,12 @@ router.get('/posts', async (req, res) => {
   }
   const myDB = await connectDB();
   const data = await myDB.getPosts(dbQuery);
+  const hotPostIds = await myDB.getViewedHistory();
+  for (let i = 0; i < data.length; i++) {
+    if (hotPostIds.has(data[i]._id.toString())) {
+      data[i].isHot = true;
+    }
+  }
   res.json(data);
 });
 
@@ -27,16 +33,23 @@ router.get('/posts/details/:id', async (req, res) => {
   const myDB = await connectDB();
   const data = await myDB.getSinglePost(req.params.id);
   let comment = null;
-
   if (req.user && req.user._id) {
     let query = { userId: req.user._id.toString(), postId: req.params.id };
-    result = await myDB.getSaveList(query);
-    // result = await myDB.getSaveList(req.user._id.toString(), req.params.id);
+    result = await myDB.getPostComment(query);
     if (result && result.length > 0) {
       comment = result[0].comment;
     }
+    // everytime there's a request sent to '/posts/details/:id'
+    // record the userId, postId and timestamp in the viewed collection
+    await myDB.addViewedHistory(
+      req.params.id,
+      req.user._id.toString(),
+      req._startTime
+    );
   }
+  // add this comment to the returned single post
   data[0].comment = comment;
+
   res.json(data);
 });
 

@@ -10,39 +10,30 @@ function SavelistPage() {
 
   const getSavedPosts = async () => {
     let savedPosts = [];
-    let originalPosts = [];
     try {
       savedPosts = await fetch('/savelist/user').then((res) => res.json());
-      for (let i = 0; i < savedPosts.length; i++) {
-        // the returned savedPost only contains postId,userId and comment
-        // we need to get each post's info using '/posts/details/:id'
-        let fetchurl = '/posts/details/'.concat(savedPosts[i].postId);
-        let postObj = await fetch(fetchurl).then((res) => res.json());
-        originalPosts.push(postObj[0]);
-      }
       console.log(`${savedPosts.length} posts returned in the response.`);
     } catch (err) {
       console.log('error occurs ', err);
     }
-
-    if (originalPosts.length !== 0) {
-      for (let j = 0; j < originalPosts.length; j++) {
+    if (savedPosts.length !== 0) {
+      for (let i = 0; i < savedPosts.length; i++) {
         // turn the title to a hyper link
-        let url = '/posts/details/'.concat(originalPosts[j]._id);
-        originalPosts[j].title = (
+        let url = '/posts/details/'.concat(savedPosts[i]._id);
+        savedPosts[i].title = (
           <a
             className="titleURL indigo-text"
             href={url}
             target="_blank"
             rel="noreferrer"
           >
-            {originalPosts[j].title}
+            {savedPosts[i].title}
           </a>
         );
-        if (originalPosts[j].area === 0) originalPosts[j].area = '';
+        if (savedPosts[i].area === 0) savedPosts[i].area = '';
       }
     }
-    setPosts(originalPosts);
+    setPosts(savedPosts);
   };
 
   useEffect(() => {

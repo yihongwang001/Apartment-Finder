@@ -11,22 +11,14 @@ import SaveListPage from './pages/SaveListPage';
 
 import NavBar from './components/NavBar';
 import LoggedIn from './components/LoginContext';
-// import PrivateRoute from './components/PrivateRoute';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import getUser from './utils/userUtil';
 
 function App() {
-  const defaultLoginInfo = {
-    loggedIn: false,
-    username: null,
-    userId: null,
-    adminAccess: false,
-  };
-
-  const localUser = localStorage.getItem('loginInfo');
-  const loginInfo = localUser ? JSON.parse(localUser) : defaultLoginInfo;
+  const loginInfo = getUser();
 
   const [loggedIn, setLoggedIn] = useState(loginInfo);
 

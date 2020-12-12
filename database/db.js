@@ -5,7 +5,7 @@ const connectDB = async () => {
   const myDB = {};
   const uri = 'mongodb://localhost:27017';
 
-  /* PART1: methods for posts collection, CRUD included */
+  /* PART1: methods for posts collection, update method is not included */
 
   // used by anonymous visitors and logged-in users
   myDB.getPosts = async (query) => {
@@ -20,7 +20,7 @@ const connectDB = async () => {
       .finally(() => client.close());
   };
 
-  // get one single post using its id in the database
+  // get one single post using post id
   myDB.getSinglePost = async (postID) => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
@@ -43,50 +43,28 @@ const connectDB = async () => {
       .finally(() => client.close());
   };
 
-  // used by anonymous visitors and logged-in users
-  // update the viewed history of each post
-  myDB.updatePost = async (documentID, record) => {
-    const client = new MongoClient(uri, { useUnifiedTopology: true });
-    await client.connect();
-    const db = client.db('craigslist_database');
-    const filter = { _id: ObjectID(documentID) };
-    const updateDoc = { $set: { viewed: record } };
-    return db
-      .collection('posts')
-      .updateOne(filter, updateDoc)
-      .finally(() => client.close());
-  };
-
   // only used by admin
   myDB.deletePosts = async (deleteList) => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
     const db = client.db('craigslist_database');
-    const documentIDs = [];
+    console.log(deleteList);
+    const postIDs = [];
     for (let i = 0; i < deleteList.length; i++) {
-      documentIDs.push(ObjectID(deleteList[i]));
+      postIDs.push(ObjectID(deleteList[i]));
     }
+    await db.collection('posts').deleteMany({ _id: { $in: postIDs } });
+    // when the admin delete certain posts, the posts' viewed history
+    // should also be deleted from the viewed colletion
     return await db
-      .collection('posts')
-      .deleteMany({ _id: { $in: documentIDs } })
+      .collection('viewed')
+      .deleteMany({ postId: { $in: deleteList } })
       .finally(() => client.close());
   };
 
   /* PART2: methods for savelists collection, CRUD included */
 
-  // myDB.getSaveList = async (userId, postId) => {
-  //   const client = new MongoClient(uri, { useUnifiedTopology: true });
-  //   await client.connect();
-  //   const db = client.db('craigslist_database');
-  //   let query = { userId: userId, postId: postId };
-  //   return db
-  //     .collection('savelists')
-  //     .find(query)
-  //     .toArray()
-  //     .finally(() => client.close());
-  // };
-
-  myDB.getSaveList = async (query) => {
+  myDB.getPostComment = async (query) => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
     const db = client.db('craigslist_database');
@@ -97,8 +75,29 @@ const connectDB = async () => {
       .finally(() => client.close());
   };
 
+  // get all the saved comments of one user
+  myDB.getSaveList = async (userId) => {
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    await client.connect();
+    const db = client.db('craigslist_database');
+    let savedComments = await db
+      .collection('savelists')
+      .find({ userId: userId })
+      .toArray();
+
+    let postIdList = [];
+    for (let i = 0; i < savedComments.length; i++) {
+      postIdList.push(ObjectID(savedComments[i].postId));
+    }
+    return db
+      .collection('posts')
+      .find({ _id: { $in: postIdList } })
+      .toArray()
+      .finally(() => client.close());
+  };
+
   // this method contains both create and update
-  // the line is let options = { upsert: true };
+  // the important line is let options = { upsert: true };
   myDB.updateOneComment = async (userId, postId, comment) => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
@@ -127,6 +126,80 @@ const connectDB = async () => {
       .collection('savelists')
       .deleteOne(query)
       .finally(() => client.close());
+  };
+
+  /* PART3: methods for viewed collection, update is not included */
+
+  // get viewedHistory in the past 3 days
+  myDB.getViewedHistory = async () => {
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    await client.connect();
+    const db = client.db('craigslist_database');
+    let timeRange = {
+      timeStamp: {
+        $gte: new Date(new Date().setDate(new Date().getDate() - 3)),
+        $lte: new Date(),
+      },
+    };
+    // grouped by postId, calculate a count of viewed records
+    // sort and return the first 5 records in decreasing order
+    let data = await db
+      .collection('viewed')
+      .aggregate([
+        { $match: timeRange },
+        { $group: { _id: '$postId', count: { $sum: 1 } } },
+        { $sort: { count: -1 } },
+      ])
+      .limit(5)
+      .toArray()
+      .finally(() => client.close());
+    // change the array to a set
+    let result = new Set();
+    for (let i = 0; i < data.length; i++) {
+      result.add(data[i]._id);
+    }
+    return result;
+  };
+
+  myDB.viewedWithinFiveMin = async (userId, postId) => {
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    await client.connect();
+    const db = client.db('craigslist_database');
+    let data = await db
+      .collection('viewed')
+      .find({
+        userId: userId,
+        postId: postId,
+        timeStamp: {
+          $gte: new Date(new Date().setMinutes(new Date().getMinutes() - 5)),
+          $lte: new Date(),
+        },
+      })
+      .toArray()
+      .finally(() => client.close());
+
+    return data.length > 0;
+  };
+
+  myDB.addViewedHistory = async (postId, userId, timeStamp) => {
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    await client.connect();
+    const db = client.db('craigslist_database');
+
+    // before add the record, first check if this userId has visited this postId within 5 minutes
+    // if yes, don't add this record
+    let recentlyViewed = await myDB.viewedWithinFiveMin(userId);
+    if (!recentlyViewed) {
+      let newRecord = {
+        postId: postId,
+        userId: userId,
+        timeStamp: timeStamp,
+      };
+      return await db
+        .collection('viewed')
+        .insertOne(newRecord)
+        .finally(() => client.close());
+    }
   };
 
   return myDB;

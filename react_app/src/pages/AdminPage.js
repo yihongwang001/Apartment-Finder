@@ -11,7 +11,7 @@ function AdminPage() {
     console.log('files:', files);
     setFile(files[0]);
   };
-  const uploadJson = () => {
+  const uploadJson = async () => {
     if (!file) {
       alert('Please select a file first!');
       return;
@@ -23,18 +23,18 @@ function AdminPage() {
     const formData = new FormData();
     formData.append('data', file);
 
-    fetch('/admin/import', {
+    let data = await fetch('/admin/import', {
       method: 'POST',
       body: formData,
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
       .catch((error) => {
         console.error(error);
       });
+
+    alert(`${Object.keys(data).length} records imported`);
   };
+
   return (
     <Container className="adminPage">
       <h1>Welcome, Administrator</h1>

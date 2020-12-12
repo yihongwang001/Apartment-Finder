@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-
 import { MDBDataTableV5, MDBInput } from 'mdbreact';
-import FilterBar from '../components/FilterBar';
-
 import { Button, Container } from '@material-ui/core';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
+import FilterBar from '../components/FilterBar';
+import getUser from '../utils/userUtil';
+
 import '../style/SummaryPage.css';
 
 function SummaryPage() {
@@ -15,7 +15,7 @@ function SummaryPage() {
 
   const getPosts = async () => {
     let posts = [];
-    let checkboxStyle = { 'margin-top': '-0.4rem' };
+    let checkboxStyle = { marginTop: '-0.4rem' };
     try {
       posts = await fetch(fetchUrl).then((res) => res.json());
       for (let i = 0; i < posts.length; i++) {
@@ -29,7 +29,6 @@ function SummaryPage() {
             onClick={() => toggleCheckbox(posts[i]._id)}
           />
         );
-
         // turn the title to a hyper link
         let url = '/posts/details/'.concat(posts[i]._id);
         posts[i].title = (
@@ -39,8 +38,8 @@ function SummaryPage() {
             target="_blank"
             rel="noreferrer"
           >
-            <WhatshotIcon className="hotIcon" />
             {posts[i].title}
+            {posts[i].isHot === true && <WhatshotIcon className="hotIcon" />}
           </a>
         );
         if (posts[i].area === 0) posts[i].area = '';
@@ -50,6 +49,18 @@ function SummaryPage() {
       console.log('error occurs ', err);
     }
     setPosts(posts);
+  };
+
+  const toggleCheckbox = (id) => {
+    if (deleteList.includes(id)) {
+      const index = deleteList.indexOf(id);
+      if (index > -1) {
+        deleteList.splice(index, 1);
+      }
+    } else {
+      deleteList.push(id);
+    }
+    setChecked(deleteList);
   };
 
   useEffect(() => {
@@ -96,24 +107,15 @@ function SummaryPage() {
       width: 100,
     },
   ];
+  const loginInfo = getUser();
+  // if it's not the admin, delete the first checkbox column
+  if (loginInfo.adminAccess !== true) {
+    colums.shift();
+  }
 
-  // // if it's not the admin, delete the first column
-  // colums.shift();
   const table = {
     columns: colums,
     rows: posts,
-  };
-
-  const toggleCheckbox = (id) => {
-    if (deleteList.includes(id)) {
-      const index = deleteList.indexOf(id);
-      if (index > -1) {
-        deleteList.splice(index, 1);
-      }
-    } else {
-      deleteList.push(id);
-    }
-    setChecked(deleteList);
   };
 
   const deletePosts = async () => {
@@ -150,13 +152,15 @@ function SummaryPage() {
           </p>
         </div>
         <FilterBar updateFetchUrl={setFetchUrl} />
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => deletePosts(deleteList)}
-        >
-          Delete
-        </Button>
+        {loginInfo.adminAccess === true && (
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => deletePosts(deleteList)}
+          >
+            Delete
+          </Button>
+        )}
         <MDBDataTableV5
           className="summaryTable"
           hover

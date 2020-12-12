@@ -32,17 +32,24 @@ const generateNewPosts = () => {
     }
 
     let resulthood = post['result-hood'];
-    resulthood = resulthood.substring(2, resulthood.length - 1);
+    if (resulthood !== null) {
+      resulthood = resulthood.substring(2, resulthood.length - 1);
+    }
 
     let priceString = post['result-price']; // convert "$7,995" to 7995
     let priceInt = parseInt(priceString.replace('$', '').replace(',', ''));
+
+    let dateString = post['postinginfo'];
+    if (dateString !== null) {
+      dateString = dateString.match(/\d{4}\-\d{2}\-\d{2} \d{2}:\d{2}/)[0];
+    }
 
     const postItem = {
       title: post['result-title'],
       mapAddress: post['mapaddress'],
       price: priceInt,
       region: resulthood,
-      date: post['postinginfo'].match(/\d{4}\-\d{2}\-\d{2} \d{2}:\d{2}/)[0],
+      date: dateString,
       contentHTML: post['postingbody'],
       images: imageList,
       bedroom: br,

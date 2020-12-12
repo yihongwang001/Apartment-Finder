@@ -6,18 +6,19 @@ const connectDB = require('../database/db');
 router.get('/', async (req, res, next) => {
   const myDB = await connectDB();
   let query = { userId: req.user._id.toString(), postId: req.body.postId };
-  let data = await myDB.getSaveList(query);
-  //   let data = await myDB.getSaveList(req.user._id.toString(), req.body.postId);
+  let data = await myDB.getPostComment(query);
   res.json(data);
 });
 
+// get all post records of one user
 router.get('/user', async (req, res, next) => {
   const myDB = await connectDB();
-  let data = await myDB.getSaveList({ userId: req.user._id.toString() });
+  let data = await myDB.getSaveList(req.user._id.toString());
+  console.log(data);
   res.json(data);
 });
 
-// update the user's one specific post comment with postId and new comment
+// create/update the user's one specific post comment with postId and new comment
 router.put('/', async (req, res, next) => {
   const myDB = await connectDB();
   let data = await myDB.updateOneComment(

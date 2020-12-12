@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState, useContext, useEffect, useRef } from 'react';
 import { Redirect, Link } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
+import { MDBBtn } from 'mdbreact';
 import LoggedIn from '../components/LoginContext';
-import '../style/LoginPage.css';
 
 const LoginPage = (props) => {
   const [email, setEmail] = useState('');
@@ -47,9 +47,6 @@ const LoginPage = (props) => {
 
     const responseJson = await response.json();
 
-    console.log(response.status);
-    console.log(responseJson);
-
     if (response.status === 200) {
       setLoggedInHelper(
         true,
@@ -58,7 +55,7 @@ const LoginPage = (props) => {
         responseJson.adminAccess
       );
     } else {
-      setLoggedInHelper(false, null, null, [], false);
+      setLoggedInHelper(false, null, null, false);
       setErrorMessage('Incorrect username or password');
       emailRef.current.value = '';
       passwordRef.current.value = '';
@@ -104,9 +101,9 @@ const LoginPage = (props) => {
               <Link to="/register">Register</Link>
             </p>
 
-            <Button type="submit" className="btn btn-secondary my-4 btn-block">
+            <MDBBtn type="submit" color="mdb-color" block>
               Sign In
-            </Button>
+            </MDBBtn>
           </Form>
         </div>
       </div>

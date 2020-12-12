@@ -5,14 +5,16 @@ import SendRoundedIcon from '@material-ui/icons/SendRounded';
 import { Button } from '@material-ui/core';
 
 import '../style/SaveSection.css';
+import getUser from '../utils/userUtil';
 
 const SaveSection = (props) => {
-  const [comment, setComment] = useState(props.comment);
+  let propsComment = props.comment === null ? '' : props.comment;
+  const [comment, setComment] = useState(propsComment);
   const handleCommentChange = (event) => {
     setComment(event.target.value);
   };
   const savePostToList = async () => {
-    if (!JSON.parse(localStorage.getItem('loginInfo')).loggedIn) {
+    if (!getUser().loggedIn) {
       alert('You need to login first!');
       return;
     }
@@ -60,7 +62,7 @@ const SaveSection = (props) => {
           variant="outlined"
           color="default"
           size="small"
-          style={{ width: '100%' }}
+          style={{ width: '100%', marginBottom: 10 }}
           onClick={savePostToList}
         >
           <SendRoundedIcon />
@@ -104,7 +106,6 @@ const SaveSection = (props) => {
             as="textarea"
             rows={5}
             value={comment}
-            defaultValue={props.comment}
             onChange={handleCommentChange}
           />
         </Form.Group>
