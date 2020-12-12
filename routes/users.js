@@ -8,7 +8,6 @@ const router = express.Router();
 router.post('/register', async (req, res) => {
   try {
     await withDb(async (db) => {
-      console.log(req.body);
       const hashedPwd = await bcrypt.hash(req.body.password, 10);
       await db.collection('users').insertOne({
         username: req.body.username,

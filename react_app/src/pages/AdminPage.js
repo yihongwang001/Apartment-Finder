@@ -32,7 +32,7 @@ function AdminPage() {
         console.error(error);
       });
 
-    alert(`${Object.keys(data).length} records imported`);
+    alert(`${Object.keys(data).length} records imported successfully!`);
   };
 
   return (

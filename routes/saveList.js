@@ -5,8 +5,10 @@ const connectDB = require('../database/db');
 // get the user's one specific record in the savelist given postId
 router.get('/', async (req, res, next) => {
   const myDB = await connectDB();
-  let query = { userId: req.user._id.toString(), postId: req.body.postId };
-  let data = await myDB.getPostComment(query);
+  let data = await myDB.getPostComment(
+    req.user._id.toString(),
+    req.body.postId
+  );
   res.json(data);
 });
 

@@ -10,6 +10,7 @@ function DetailsPage() {
   const { id } = useParams();
   const [post, setPost] = useState({});
   const [imagesList, setImageList] = useState([]);
+  const [show404, setShow404] = useState(false);
 
   const initPage = async () => {
     let currentPost;
@@ -17,15 +18,19 @@ function DetailsPage() {
     try {
       let url = '/posts/details/'.concat(id);
       currentPost = await fetch(url).then((res) => res.json());
-      setPost(currentPost[0]);
-      const images = currentPost[0].images;
-      for (let i = 0; i < images.length; i++) {
-        list.push({
-          original: images[i],
-          thumbnail: images[i].replace('_600x450', '_50x50c'),
-        });
+      if (currentPost.length > 0) {
+        setPost(currentPost[0]);
+        const images = currentPost[0].images;
+        for (let i = 0; i < images.length; i++) {
+          list.push({
+            original: images[i],
+            thumbnail: images[i].replace('_600x450', '_50x50c'),
+          });
+        }
+        setImageList(list);
+      } else {
+        setShow404(true);
       }
-      setImageList(list);
     } catch (err) {
       console.log('error occurs ', err);
     }
@@ -38,10 +43,8 @@ function DetailsPage() {
   return (
     <div>
       <Container>
-        {Object.keys(post).length === 0 && post.constructor === Object && (
-          <NotFoundPage />
-        )}
-        {(Object.keys(post).length !== 0 || post.constructor !== Object) && (
+        {show404 && <NotFoundPage />}
+        {!show404 && (
           <Row className="mainContent">
             <Col lg={9}>
               <h4 className="postTitle">{post.title}</h4>

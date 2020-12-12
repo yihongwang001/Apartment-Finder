@@ -31,11 +31,10 @@ router.get('/posts', async (req, res) => {
 // get a single post given its id
 router.get('/posts/details/:id', async (req, res) => {
   const myDB = await connectDB();
-  const data = await myDB.getSinglePost(req.params.id);
+  let data = await myDB.getSinglePost(req.params.id);
   let comment = null;
   if (req.user && req.user._id) {
-    let query = { userId: req.user._id.toString(), postId: req.params.id };
-    result = await myDB.getPostComment(query);
+    result = await myDB.getPostComment(req.user._id.toString(), req.params.id);
     if (result && result.length > 0) {
       comment = result[0].comment;
     }
@@ -47,8 +46,11 @@ router.get('/posts/details/:id', async (req, res) => {
       req._startTime
     );
   }
+  console.log(data);
+  if (data.length > 0) {
+    data[0].comment = comment;
+  }
   // add this comment to the returned single post
-  data[0].comment = comment;
 
   res.json(data);
 });

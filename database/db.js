@@ -1,5 +1,6 @@
 const { MongoClient } = require('mongodb');
 const ObjectID = require('mongodb').ObjectID;
+const withDb = require('../database/dbUtils');
 
 const connectDB = async () => {
   const myDB = {};
@@ -54,8 +55,8 @@ const connectDB = async () => {
       postIDs.push(ObjectID(deleteList[i]));
     }
     await db.collection('posts').deleteMany({ _id: { $in: postIDs } });
-    // when the admin delete certain posts, the posts' viewed history
-    // should also be deleted from the viewed colletion
+    // when the admin deletes certain posts
+    // the posts' viewed history should also be deleted
     return await db
       .collection('viewed')
       .deleteMany({ postId: { $in: deleteList } })
@@ -64,13 +65,13 @@ const connectDB = async () => {
 
   /* PART2: methods for savelists collection, CRUD included */
 
-  myDB.getPostComment = async (query) => {
+  myDB.getPostComment = async (userId, postId) => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
     const db = client.db('craigslist_database');
     return db
       .collection('savelists')
-      .find(query)
+      .find({ userId: userId, postId: postId })
       .toArray()
       .finally(() => client.close());
   };
@@ -141,8 +142,8 @@ const connectDB = async () => {
         $lte: new Date(),
       },
     };
-    // grouped by postId, calculate a count of viewed records
-    // sort and return the first 5 records in decreasing order
+    // grouped by postId, calculate the count of viewed records
+    // sort and return the first 5 results in decreasing order
     let data = await db
       .collection('viewed')
       .aggregate([
@@ -185,7 +186,6 @@ const connectDB = async () => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
     const db = client.db('craigslist_database');
-
     // before add the record, first check if this userId has visited this postId within 5 minutes
     // if yes, don't add this record
     let recentlyViewed = await myDB.viewedWithinFiveMin(userId);
