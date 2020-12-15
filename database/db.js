@@ -49,7 +49,6 @@ const connectDB = async () => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
     const db = client.db("craigslist_database");
-    console.log(deleteList);
     const postIDs = [];
     for (let i = 0; i < deleteList.length; i++) {
       postIDs.push(ObjectID(deleteList[i]));

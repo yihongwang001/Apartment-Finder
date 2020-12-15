@@ -11,6 +11,8 @@ function DetailsPage() {
   const [post, setPost] = useState({});
   const [imagesList, setImageList] = useState([]);
   const [show404, setShow404] = useState(false);
+  const [comment, setComment] = useState("");
+  const [saved, setSaved] = useState(false);
 
   const initPage = async () => {
     let currentPost;
@@ -20,6 +22,10 @@ function DetailsPage() {
       currentPost = await fetch(url).then((res) => res.json());
       if (currentPost.length > 0) {
         setPost(currentPost[0]);
+        if (currentPost[0].comment) {
+          setComment(currentPost[0].comment);
+          setSaved(true);
+        }
         const images = currentPost[0].images;
         for (let i = 0; i < images.length; i++) {
           list.push({
@@ -32,6 +38,7 @@ function DetailsPage() {
         setShow404(true);
       }
     } catch (err) {
+      setShow404(true);
       console.log("error occurs ", err);
     }
   };
@@ -69,7 +76,12 @@ function DetailsPage() {
               <div dangerouslySetInnerHTML={{ __html: post.contentHTML }} />
             </Col>
             <Col lg={3}>
-              <SaveSection postId={id} comment={post.comment} />
+              <SaveSection
+                postId={id}
+                comment={comment}
+                saved={saved}
+                setComment={setComment}
+              />
             </Col>
           </Row>
         )}

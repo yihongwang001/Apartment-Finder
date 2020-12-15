@@ -17,7 +17,6 @@ router.get("/", async (req, res) => {
 router.get("/user", async (req, res) => {
   const myDB = await connectDB();
   let data = await myDB.getSaveList(req.user._id.toString());
-  console.log(data);
   res.json(data);
 });
 
@@ -39,7 +38,6 @@ router.delete("/", async (req, res) => {
     req.user._id.toString(),
     req.body.postId
   );
-  console.log(data);
   res.json(data);
 });
 

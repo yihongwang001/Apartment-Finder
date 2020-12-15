@@ -32,31 +32,35 @@ router.get("/posts", async (req, res) => {
 // get a single post given its id
 router.get("/posts/details/:id", async (req, res) => {
   const myDB = await connectDB();
-  let data = await myDB.getSinglePost(req.params.id);
-  let comment = null;
-  if (req.user && req.user._id) {
-    let result = await myDB.getPostComment(
-      req.user._id.toString(),
-      req.params.id
-    );
-    if (result && result.length > 0) {
-      comment = result[0].comment;
+  try {
+    let data = await myDB.getSinglePost(req.params.id);
+    let comment = null;
+    if (req.user && req.user._id) {
+      let result = await myDB.getPostComment(
+        req.user._id.toString(),
+        req.params.id
+      );
+      if (result && result.length > 0) {
+        comment = result[0].comment;
+      }
+      // everytime there's a request sent to '/posts/details/:id'
+      // record the userId, postId and timestamp in the viewed collection
+      await myDB.addViewedHistory(
+        req.params.id,
+        req.user._id.toString(),
+        req._startTime
+      );
     }
-    // everytime there's a request sent to '/posts/details/:id'
-    // record the userId, postId and timestamp in the viewed collection
-    await myDB.addViewedHistory(
-      req.params.id,
-      req.user._id.toString(),
-      req._startTime
-    );
-  }
-  console.log(data);
-  if (data.length > 0) {
-    data[0].comment = comment;
-  }
-  // add this comment to the returned single post
+    if (data.length > 0) {
+      data[0].comment = comment;
+    }
+    // add this comment to the returned single post
 
-  res.json(data);
+    res.json(data);
+  } catch (err) {
+    console.log("error occurs ", err);
+    res.json({});
+  }
 });
 
 module.exports = router;

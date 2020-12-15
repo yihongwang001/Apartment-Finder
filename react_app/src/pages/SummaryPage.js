@@ -65,7 +65,7 @@ function SummaryPage() {
 
   useEffect(() => {
     getPosts();
-  }, [fetchUrl]); // Only run the first time
+  }, [fetchUrl]);
 
   let colums = [
     {

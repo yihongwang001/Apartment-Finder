@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Container, Form } from "react-bootstrap";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import SendRoundedIcon from "@material-ui/icons/SendRounded";
@@ -8,10 +8,8 @@ import "../style/SaveSection.css";
 import getUser from "../utils/userUtil";
 
 const SaveSection = (props) => {
-  let propsComment = props.comment === null ? "" : props.comment;
-  const [comment, setComment] = useState(propsComment);
   const handleCommentChange = (event) => {
-    setComment(event.target.value);
+    props.setComment(event.target.value);
   };
   const savePostToList = async () => {
     if (!getUser().loggedIn) {
@@ -25,7 +23,7 @@ const SaveSection = (props) => {
       },
       body: JSON.stringify({
         postId: props.postId,
-        comment: comment,
+        comment: props.comment,
       }),
     }).then((res) => res.json());
     if (result.ok === 1) {
@@ -55,7 +53,7 @@ const SaveSection = (props) => {
   };
 
   let button;
-  if (props.comment !== null) {
+  if (props.saved) {
     button = (
       <div>
         <Button
@@ -105,7 +103,7 @@ const SaveSection = (props) => {
           <Form.Control
             as="textarea"
             rows={5}
-            value={comment}
+            value={props.comment}
             onChange={handleCommentChange}
           />
         </Form.Group>

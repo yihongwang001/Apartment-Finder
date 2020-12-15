@@ -40,7 +40,6 @@ const RegisterPage = () => {
       body: formBody,
     });
 
-    console.log(response.status);
     if (response.status === 200) {
       setRegistered(true);
     }
