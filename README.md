@@ -35,13 +35,13 @@ Or you can run the project locally with the following steps:
 ## Screenshots of the website:
 
 - Post Summary Page:
-  ![Image of post summary preview](https://github.com/YeqingHuang/Apartment-Finder/tree/main/screenshots/post_summary_page.png)
+  ![Image of post summary preview](https://github.com/YeqingHuang/Apartment-Finder/blob/main/screenshots/post_summary_page.png)
 
 - Post Details Page:
-  ![Image of post details page](https://github.com/YeqingHuang/Apartment-Finder/tree/main/screenshots/post_details_page.png)
+  ![Image of post details page](https://github.com/YeqingHuang/Apartment-Finder/blob/main/screenshots/post_details_page.png)
 
 - Admin Deleting Post Preivew:
-  ![Image of administer deleting post function](https://github.com/YeqingHuang/Apartment-Finder/tree/main/screenshots/admin_delete_page.png)
+  ![Image of administer deleting post function](https://github.com/YeqingHuang/Apartment-Finder/blob/main/screenshots/admin_delete_page.png)
 
 - Admin Batch Upload Preivew:
-  ![Image of administer importing post function](https://github.com/YeqingHuang/Apartment-Finder/tree/main/screenshots/admin_upload_page.png)
+  ![Image of administer importing post function](https://github.com/YeqingHuang/Apartment-Finder/blob/main/screenshots/admin_upload_page.png)
