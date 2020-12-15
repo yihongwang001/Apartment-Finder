@@ -1,3 +1,4 @@
+/* eslint-env node */
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
@@ -16,12 +17,12 @@ const generateNewPosts = () => {
     const imageList = post['images'];
     if (imageList.length !== 0) {
       for (let i = 0; i < imageList.length; i++) {
-        // modify _50x50c.jpg to _600x450.jpg
         imageList[i] = imageList[i].replace('_50x50c', '_600x450');
       }
     }
     const housing = post['housing']; // "/ 3br - 2000ft"
-    let br = null;
+    let br = null; // bedrooms in string format
+    let sft = null; // squarefeet in string format
     let squareftInt = 0;
     if (housing !== null) {
       br = housing.substring(2, housing.indexOf('-') - 1);
@@ -41,7 +42,7 @@ const generateNewPosts = () => {
 
     let dateString = post['postinginfo'];
     if (dateString !== null) {
-      dateString = dateString.match(/\d{4}\-\d{2}\-\d{2} \d{2}:\d{2}/)[0];
+      dateString = dateString.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}/)[0];
     }
 
     const postItem = {

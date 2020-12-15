@@ -1,3 +1,4 @@
+/* eslint-env node */
 const express = require('express');
 const bcrypt = require('bcrypt');
 const withDb = require('../database/dbUtils');

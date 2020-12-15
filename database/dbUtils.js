@@ -1,3 +1,4 @@
+/* eslint-env node */
 const { MongoClient } = require('mongodb');
 
 async function withDb(callable) {

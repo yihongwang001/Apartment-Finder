@@ -19,7 +19,7 @@ const LoginPage = (props) => {
     if (props.location.state && props.location.state.errorMessage) {
       setErrorMessage(props.location.state.errorMessage);
     }
-  }, []);
+  }, [props.location.state]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

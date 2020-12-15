@@ -1,6 +1,6 @@
+/* eslint-env node */
 const { MongoClient } = require('mongodb');
 const ObjectID = require('mongodb').ObjectID;
-const withDb = require('../database/dbUtils');
 
 const connectDB = async () => {
   const myDB = {};

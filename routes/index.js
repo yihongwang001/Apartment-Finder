@@ -1,3 +1,4 @@
+/* eslint-env node */
 const express = require('express');
 const router = express.Router();
 const connectDB = require('../database/db');
@@ -34,7 +35,10 @@ router.get('/posts/details/:id', async (req, res) => {
   let data = await myDB.getSinglePost(req.params.id);
   let comment = null;
   if (req.user && req.user._id) {
-    result = await myDB.getPostComment(req.user._id.toString(), req.params.id);
+    let result = await myDB.getPostComment(
+      req.user._id.toString(),
+      req.params.id
+    );
     if (result && result.length > 0) {
       comment = result[0].comment;
     }
