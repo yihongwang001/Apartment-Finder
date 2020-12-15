@@ -17,9 +17,10 @@ This is the Final Project for [CS5610 Web Development](https://johnguerra.co/cla
 
 ## Instructions to Build:
 
-You can find the [demo here](https://sfbay.craigslist.org/). Use below account to test for administrator features:  
-email: admin123@gmail.com, password: 12345  
-You can upload a sample JSON file. The file is in database folder called samplefile.json. (Download it locally first).
+You can find the [demo here](https://sfbay.craigslist.org/). To test administrator features:
+
+1. Use admin account: Email: admin123@gmail.com, password: 12345
+2. You can upload a template JSON file in admin page. The file is called samplefile.json in database folder.
 
 Or you can run the project locally with the following steps:
 
@@ -34,13 +35,13 @@ Or you can run the project locally with the following steps:
 ## Screenshots of the website:
 
 - Post Summary Page:
-  ![Image of post summary preview]()
+  ![Image of post summary preview](https://github.com/YeqingHuang/Apartment-Finder/tree/main/screenshots/post_summary_page.png)
 
 - Post Details Page:
-  ![Image of post details page]()
+  ![Image of post details page](https://github.com/YeqingHuang/Apartment-Finder/tree/main/screenshots/post_details_page.png)
 
 - Admin Deleting Post Preivew:
-  ![Image of administer deleting post function]()
+  ![Image of administer deleting post function](https://github.com/YeqingHuang/Apartment-Finder/tree/main/screenshots/admin_delete_page.png)
 
 - Admin Batch Upload Preivew:
-  ![Image of administer importing post function]()
+  ![Image of administer importing post function](https://github.com/YeqingHuang/Apartment-Finder/tree/main/screenshots/admin_upload_page.png)
