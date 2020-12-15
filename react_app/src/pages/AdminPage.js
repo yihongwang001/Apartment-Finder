@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
-import { Button } from '@material-ui/core';
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Button } from "@material-ui/core";
+import { Container, Row, Col, Form } from "react-bootstrap";
 
-import '../style/AdminPage.css';
+import "../style/AdminPage.css";
 
 function AdminPage() {
   const [file, setFile] = useState(null);
   const handleFileSelected = (e) => {
     const files = Array.from(e.target.files);
-    console.log('files:', files);
+    console.log("files:", files);
     setFile(files[0]);
   };
   const uploadJson = async () => {
     if (!file) {
-      alert('Please select a file first!');
+      alert("Please select a file first!");
       return;
     }
-    if (!file.name.endsWith('.json')) {
-      alert('Please upload a Json file!');
+    if (!file.name.endsWith(".json")) {
+      alert("Please upload a Json file!");
       return;
     }
     const formData = new FormData();
-    formData.append('data', file);
+    formData.append("data", file);
 
-    let data = await fetch('/admin/import', {
-      method: 'POST',
+    let data = await fetch("/admin/import", {
+      method: "POST",
       body: formData,
     })
       .then((response) => response.json())
@@ -43,7 +43,7 @@ function AdminPage() {
         <br />
         <strong>Add posts</strong> - Choose a json file and upload here
         <br />
-        <strong>Delete posts</strong> - Go to delete in the{' '}
+        <strong>Delete posts</strong> - Go to delete in the{" "}
         <a href="/"> home page </a>
       </p>
 

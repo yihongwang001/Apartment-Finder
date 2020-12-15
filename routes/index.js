@@ -1,10 +1,10 @@
 /* eslint-env node */
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const connectDB = require('../database/db');
+const connectDB = require("../database/db");
 
 // get all posts with query passed from client-side
-router.get('/posts', async (req, res) => {
+router.get("/posts", async (req, res) => {
   let dbQuery = {};
   let query = req.query;
   if (Object.keys(req.query).length !== 0) {
@@ -15,7 +15,7 @@ router.get('/posts', async (req, res) => {
       },
       area: { $gte: parseInt(query.area) },
       date: { $gte: query.startDate, $lte: query.endDate },
-      bedroom: { $gte: query.bedroom.concat('br') },
+      bedroom: { $gte: query.bedroom.concat("br") },
     };
   }
   const myDB = await connectDB();
@@ -30,7 +30,7 @@ router.get('/posts', async (req, res) => {
 });
 
 // get a single post given its id
-router.get('/posts/details/:id', async (req, res) => {
+router.get("/posts/details/:id", async (req, res) => {
   const myDB = await connectDB();
   let data = await myDB.getSinglePost(req.params.id);
   let comment = null;

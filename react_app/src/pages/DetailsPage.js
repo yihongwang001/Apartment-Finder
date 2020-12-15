@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
-import { Container, Row, Col, Badge } from 'react-bootstrap';
-import Gallery from '../components/ImageGallery';
-import SaveSection from '../components/SaveSection';
-import NotFoundPage from './NotFoundPage';
-import '../style/DetailsPage.css';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
+import { Container, Row, Col, Badge } from "react-bootstrap";
+import Gallery from "../components/ImageGallery";
+import SaveSection from "../components/SaveSection";
+import NotFoundPage from "./NotFoundPage";
+import "../style/DetailsPage.css";
 
 function DetailsPage() {
   const { id } = useParams();
@@ -16,7 +16,7 @@ function DetailsPage() {
     let currentPost;
     let list = [];
     try {
-      let url = '/posts/details/'.concat(id);
+      let url = "/posts/details/".concat(id);
       currentPost = await fetch(url).then((res) => res.json());
       if (currentPost.length > 0) {
         setPost(currentPost[0]);
@@ -24,7 +24,7 @@ function DetailsPage() {
         for (let i = 0; i < images.length; i++) {
           list.push({
             original: images[i],
-            thumbnail: images[i].replace('_600x450', '_50x50c'),
+            thumbnail: images[i].replace("_600x450", "_50x50c"),
           });
         }
         setImageList(list);
@@ -32,7 +32,7 @@ function DetailsPage() {
         setShow404(true);
       }
     } catch (err) {
-      console.log('error occurs ', err);
+      console.log("error occurs ", err);
     }
   };
 
@@ -49,7 +49,7 @@ function DetailsPage() {
             <Col lg={9}>
               <h4 className="postTitle">{post.title}</h4>
               <div>
-                {post.date}{' '}
+                {post.date}{" "}
                 <span className="float-right">${post.price} /month</span>
               </div>
               <div className="moreInfo">

@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { MDBDataTableV5, MDBInput } from 'mdbreact';
-import { Button, Container } from '@material-ui/core';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
-import FilterBar from '../components/FilterBar';
-import getUser from '../utils/userUtil';
+import React, { useState, useEffect } from "react";
+import { MDBDataTableV5, MDBInput } from "mdbreact";
+import { Button, Container } from "@material-ui/core";
+import WhatshotIcon from "@material-ui/icons/Whatshot";
+import FilterBar from "../components/FilterBar";
+import getUser from "../utils/userUtil";
 
-import '../style/SummaryPage.css';
+import "../style/SummaryPage.css";
 
 function SummaryPage() {
   const [posts, setPosts] = useState([]);
-  const [fetchUrl, setFetchUrl] = useState('/posts');
+  const [fetchUrl, setFetchUrl] = useState("/posts");
   const [checked, setChecked] = useState([]);
   const deleteList = [];
 
   const getPosts = async () => {
     let posts = [];
-    let checkboxStyle = { marginTop: '-0.4rem' };
+    let checkboxStyle = { marginTop: "-0.4rem" };
     try {
       posts = await fetch(fetchUrl).then((res) => res.json());
       for (let i = 0; i < posts.length; i++) {
@@ -30,7 +30,7 @@ function SummaryPage() {
           />
         );
         // turn the title to a hyper link
-        let url = '/posts/details/'.concat(posts[i]._id);
+        let url = "/posts/details/".concat(posts[i]._id);
         posts[i].title = (
           <a
             className="titleURL indigo-text"
@@ -42,11 +42,11 @@ function SummaryPage() {
             {posts[i].isHot === true && <WhatshotIcon className="hotIcon" />}
           </a>
         );
-        if (posts[i].area === 0) posts[i].area = '';
+        if (posts[i].area === 0) posts[i].area = "";
       }
       console.log(`${posts.length} posts returned in the response.`);
     } catch (err) {
-      console.log('error occurs ', err);
+      console.log("error occurs ", err);
     }
     setPosts(posts);
   };
@@ -69,41 +69,41 @@ function SummaryPage() {
 
   let colums = [
     {
-      field: 'check',
+      field: "check",
     },
     {
-      label: 'Title',
-      field: 'title',
-      sort: 'asc',
+      label: "Title",
+      field: "title",
+      sort: "asc",
       width: 180,
     },
     {
-      label: 'Region',
-      field: 'region',
+      label: "Region",
+      field: "region",
       width: 80,
     },
     {
-      label: 'Price($)',
-      field: 'price',
-      sort: 'asc',
+      label: "Price($)",
+      field: "price",
+      sort: "asc",
       width: 40,
     },
     {
-      label: 'Bedroom',
-      field: 'bedroom',
-      sort: 'asc',
+      label: "Bedroom",
+      field: "bedroom",
+      sort: "asc",
       width: 40,
     },
     {
-      label: 'Area(sqft)',
-      field: 'area',
-      sort: 'asc',
+      label: "Area(sqft)",
+      field: "area",
+      sort: "asc",
       width: 40,
     },
     {
-      label: 'Post Time',
-      field: 'date',
-      sort: 'desc',
+      label: "Post Time",
+      field: "date",
+      sort: "desc",
       width: 100,
     },
   ];
@@ -120,10 +120,10 @@ function SummaryPage() {
 
   const deletePosts = async () => {
     try {
-      let result = await fetch('/admin/delete', {
-        method: 'DELETE',
+      let result = await fetch("/admin/delete", {
+        method: "DELETE",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           deleteList: checked,
@@ -131,9 +131,9 @@ function SummaryPage() {
       }).then((res) => res.json());
       if (result.success) {
         setChecked([]);
-        window.location.href = '/';
+        window.location.href = "/";
       } else {
-        alert('Backend failed to delete the records');
+        alert("Backend failed to delete the records");
       }
     } catch (err) {
       alert(`Failed to call [DELETE]. Please check console to see error log.`);

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Box,
   Button,
@@ -8,13 +8,13 @@ import {
   NativeSelect,
   Slider,
   TextField,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 const FilterBar = (props) => {
   const useStyles = makeStyles((theme) => ({
     filterBarBox: {
-      display: 'flex',
-      alignItems: 'center',
+      display: "flex",
+      alignItems: "center",
       marginTop: 10,
       marginBottom: 10,
     },
@@ -39,15 +39,15 @@ const FilterBar = (props) => {
   const classes = useStyles();
 
   let today = new Date();
-  let dd = String(today.getDate()).padStart(2, '0');
-  let mm = String(today.getMonth() + 1).padStart(2, '0');
+  let dd = String(today.getDate()).padStart(2, "0");
+  let mm = String(today.getMonth() + 1).padStart(2, "0");
   let yyyy = today.getFullYear();
-  let todayString = yyyy + '-' + mm + '-' + dd;
+  let todayString = yyyy + "-" + mm + "-" + dd;
 
   const [price, setPrice] = useState([0, 8000]);
   const [bedroom, setBedroom] = useState(0);
   const [area, setArea] = useState(0);
-  const [startDate, setStartDate] = useState('2020-09-01');
+  const [startDate, setStartDate] = useState("2020-09-01");
   const [endDate, setEndDate] = useState(todayString);
 
   const handlePriceChange = (event, newPrice) => {
@@ -72,7 +72,7 @@ const FilterBar = (props) => {
 
   const applyFilter = () => {
     if (startDate > endDate) {
-      alert('Start date should less than or equal to end date!');
+      alert("Start date should less than or equal to end date!");
       return;
     }
     let params = {
@@ -84,7 +84,7 @@ const FilterBar = (props) => {
       endDate: endDate,
     };
     props.updateFetchUrl(
-      '/posts?'.concat(new URLSearchParams(params).toString())
+      "/posts?".concat(new URLSearchParams(params).toString())
     );
   };
 
@@ -92,10 +92,10 @@ const FilterBar = (props) => {
     setPrice([0, 8000]);
     setBedroom(0);
     setArea(0);
-    setStartDate('2020-09-01');
+    setStartDate("2020-09-01");
     setEndDate(todayString);
 
-    props.updateFetchUrl('/posts?'.concat(new URLSearchParams({}).toString()));
+    props.updateFetchUrl("/posts?".concat(new URLSearchParams({}).toString()));
   };
 
   return (
@@ -119,8 +119,8 @@ const FilterBar = (props) => {
           value={bedroom}
           onChange={handleBedroomChange}
           inputProps={{
-            name: 'bedroom',
-            id: 'bedroom-label',
+            name: "bedroom",
+            id: "bedroom-label",
           }}
         >
           <option value={0}>All</option>
@@ -136,8 +136,8 @@ const FilterBar = (props) => {
           value={area}
           onChange={handleAreaChange}
           inputProps={{
-            name: 'area',
-            id: 'area-label',
+            name: "area",
+            id: "area-label",
           }}
         >
           <option value={0}>All</option>

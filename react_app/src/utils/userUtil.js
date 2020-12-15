@@ -1,5 +1,5 @@
 function getUser() {
-  let localUser = localStorage.getItem('loginInfo');
+  let localUser = localStorage.getItem("loginInfo");
   const loginInfo = localUser
     ? JSON.parse(localUser)
     : { loggedIn: false, username: null, userId: null, adminAccess: false };

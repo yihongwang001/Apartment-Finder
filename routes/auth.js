@@ -1,17 +1,17 @@
 /* eslint-env node */
-const express = require('express');
-const passport = require('passport');
+const express = require("express");
+const passport = require("passport");
 const router = express.Router();
 
-router.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, user) => {
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, user) => {
     if (err) {
       return next(err);
     }
 
     if (!user) {
       return res.status(401).json({
-        message: 'Authorization Failure',
+        message: "Authorization Failure",
       });
     }
 
@@ -20,7 +20,7 @@ router.post('/login', (req, res, next) => {
         return next(err);
       }
       return res.status(200).json({
-        message: 'Authorized',
+        message: "Authorized",
         username: user.username,
         userId: user._id.toString(),
         adminAccess: user.adminAccess,
@@ -29,10 +29,10 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
-router.get('/logout', (req, res) => {
+router.get("/logout", (req, res) => {
   try {
     req.logOut();
-    res.status(200).json({ message: 'Log out successfully.' });
+    res.status(200).json({ message: "Log out successfully." });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: `Internal error: ${err}` });

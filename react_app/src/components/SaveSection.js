@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
-import { Container, Form } from 'react-bootstrap';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import SendRoundedIcon from '@material-ui/icons/SendRounded';
-import { Button } from '@material-ui/core';
+import React, { useState } from "react";
+import { Container, Form } from "react-bootstrap";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import SendRoundedIcon from "@material-ui/icons/SendRounded";
+import { Button } from "@material-ui/core";
 
-import '../style/SaveSection.css';
-import getUser from '../utils/userUtil';
+import "../style/SaveSection.css";
+import getUser from "../utils/userUtil";
 
 const SaveSection = (props) => {
-  let propsComment = props.comment === null ? '' : props.comment;
+  let propsComment = props.comment === null ? "" : props.comment;
   const [comment, setComment] = useState(propsComment);
   const handleCommentChange = (event) => {
     setComment(event.target.value);
   };
   const savePostToList = async () => {
     if (!getUser().loggedIn) {
-      alert('You need to login first!');
+      alert("You need to login first!");
       return;
     }
-    let result = await fetch('/savelist', {
-      method: 'PUT',
+    let result = await fetch("/savelist", {
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         postId: props.postId,
@@ -29,28 +29,28 @@ const SaveSection = (props) => {
       }),
     }).then((res) => res.json());
     if (result.ok === 1) {
-      alert('Comment updated successfully.');
+      alert("Comment updated successfully.");
       window.location.reload();
     } else {
-      alert('Backend failed to save comment.');
+      alert("Backend failed to save comment.");
     }
   };
 
   const deleteFromWatchlist = async () => {
-    let result = await fetch('/savelist', {
-      method: 'DELETE',
+    let result = await fetch("/savelist", {
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         postId: props.postId,
       }),
     }).then((res) => res.json());
     if (result.ok === 1) {
-      alert('Successfully removed from your watchlist.');
+      alert("Successfully removed from your watchlist.");
       window.location.reload();
     } else {
-      alert('Backend failed to remove it.');
+      alert("Backend failed to remove it.");
     }
   };
 
@@ -62,7 +62,7 @@ const SaveSection = (props) => {
           variant="outlined"
           color="default"
           size="small"
-          style={{ width: '100%', marginBottom: 10 }}
+          style={{ width: "100%", marginBottom: 10 }}
           onClick={savePostToList}
         >
           <SendRoundedIcon />
@@ -72,7 +72,7 @@ const SaveSection = (props) => {
           variant="outlined"
           color="default"
           size="small"
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
           onClick={deleteFromWatchlist}
         >
           Remove From Watchlist
@@ -85,7 +85,7 @@ const SaveSection = (props) => {
         variant="outlined"
         color="default"
         size="small"
-        style={{ width: '100%' }}
+        style={{ width: "100%" }}
         onClick={savePostToList}
       >
         <FavoriteBorderIcon mr={2} />

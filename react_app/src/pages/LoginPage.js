@@ -1,14 +1,14 @@
-import React from 'react';
-import { useState, useContext, useEffect, useRef } from 'react';
-import { Redirect, Link } from 'react-router-dom';
-import { Form } from 'react-bootstrap';
-import { MDBBtn } from 'mdbreact';
-import LoggedIn from '../components/LoginContext';
+import React from "react";
+import { useState, useContext, useEffect, useRef } from "react";
+import { Redirect, Link } from "react-router-dom";
+import { Form } from "react-bootstrap";
+import { MDBBtn } from "mdbreact";
+import LoggedIn from "../components/LoginContext";
 
 const LoginPage = (props) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const { loggedIn, setLoggedInHelper } = useContext(LoggedIn);
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -31,17 +31,17 @@ const LoginPage = (props) => {
     const formBody = Object.keys(bodyObject)
       .map(
         (key) =>
-          encodeURIComponent(key) + '=' + encodeURIComponent(bodyObject[key])
+          encodeURIComponent(key) + "=" + encodeURIComponent(bodyObject[key])
       )
-      .join('&');
+      .join("&");
 
-    const response = await fetch('/auth/login', {
-      method: 'POST',
+    const response = await fetch("/auth/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Accept: 'appliction/json',
+        "Content-Type": "application/x-www-form-urlencoded",
+        Accept: "appliction/json",
       },
-      redirect: 'follow',
+      redirect: "follow",
       body: formBody,
     });
 
@@ -56,9 +56,9 @@ const LoginPage = (props) => {
       );
     } else {
       setLoggedInHelper(false, null, null, false);
-      setErrorMessage('Incorrect username or password');
-      emailRef.current.value = '';
-      passwordRef.current.value = '';
+      setErrorMessage("Incorrect username or password");
+      emailRef.current.value = "";
+      passwordRef.current.value = "";
     }
   };
 

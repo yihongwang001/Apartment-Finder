@@ -1,21 +1,21 @@
-import './App.css';
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import "./App.css";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import AdminPage from './pages/AdminPage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import PostSummaryPage from './pages/SummaryPage';
-import PostDetailsPage from './pages/DetailsPage';
-import SaveListPage from './pages/SaveListPage';
+import AdminPage from "./pages/AdminPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import PostSummaryPage from "./pages/SummaryPage";
+import PostDetailsPage from "./pages/DetailsPage";
+import SaveListPage from "./pages/SaveListPage";
 
-import NavBar from './components/NavBar';
-import LoggedIn from './components/LoginContext';
+import NavBar from "./components/NavBar";
+import LoggedIn from "./components/LoginContext";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'mdbreact/dist/css/mdb.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import getUser from './utils/userUtil';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "mdbreact/dist/css/mdb.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import getUser from "./utils/userUtil";
 
 function App() {
   const loginInfo = getUser();
@@ -29,7 +29,7 @@ function App() {
       userId: userId,
       adminAccess: adminAccess,
     };
-    localStorage.setItem('loginInfo', JSON.stringify(loginObj));
+    localStorage.setItem("loginInfo", JSON.stringify(loginObj));
     setLoggedIn(loginObj);
   };
 

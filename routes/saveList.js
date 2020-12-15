@@ -1,10 +1,10 @@
 /* eslint-env node */
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const connectDB = require('../database/db');
+const connectDB = require("../database/db");
 
 // get the user's one specific record in the savelist given postId
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   const myDB = await connectDB();
   let data = await myDB.getPostComment(
     req.user._id.toString(),
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 });
 
 // get all post records of one user
-router.get('/user', async (req, res) => {
+router.get("/user", async (req, res) => {
   const myDB = await connectDB();
   let data = await myDB.getSaveList(req.user._id.toString());
   console.log(data);
@@ -22,7 +22,7 @@ router.get('/user', async (req, res) => {
 });
 
 // create/update the user's one specific post comment with postId and new comment
-router.put('/', async (req, res) => {
+router.put("/", async (req, res) => {
   const myDB = await connectDB();
   let data = await myDB.updateOneComment(
     req.user._id.toString(),
@@ -33,7 +33,7 @@ router.put('/', async (req, res) => {
 });
 
 // delete the user's comment for one post
-router.delete('/', async (req, res) => {
+router.delete("/", async (req, res) => {
   const myDB = await connectDB();
   let data = await myDB.deleteOneComment(
     req.user._id.toString(),

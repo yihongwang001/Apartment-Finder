@@ -1,13 +1,13 @@
-import React from 'react';
-import { useState, useEffect, useRef } from 'react';
-import { Redirect, Link } from 'react-router-dom';
-import { Form } from 'react-bootstrap';
-import { MDBBtn } from 'mdbreact';
+import React from "react";
+import { useState, useEffect, useRef } from "react";
+import { Redirect, Link } from "react-router-dom";
+import { Form } from "react-bootstrap";
+import { MDBBtn } from "mdbreact";
 
 const RegisterPage = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [registered, setRegistered] = useState(false);
   const usernameRef = useRef();
 
@@ -26,17 +26,17 @@ const RegisterPage = () => {
     const formBody = Object.keys(bodyObject)
       .map(
         (key) =>
-          encodeURIComponent(key) + '=' + encodeURIComponent(bodyObject[key])
+          encodeURIComponent(key) + "=" + encodeURIComponent(bodyObject[key])
       )
-      .join('&');
+      .join("&");
 
-    let response = await fetch('/user/register', {
-      method: 'POST',
+    let response = await fetch("/user/register", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Accept: 'appliction/json',
+        "Content-Type": "application/x-www-form-urlencoded",
+        Accept: "appliction/json",
       },
-      redirect: 'follow',
+      redirect: "follow",
       body: formBody,
     });
 

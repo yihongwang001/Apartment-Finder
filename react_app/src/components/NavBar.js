@@ -1,24 +1,24 @@
-import React, { useContext } from 'react';
-import { Nav, Navbar } from 'react-bootstrap';
-import { Button } from '@material-ui/core';
-import PersonIcon from '@material-ui/icons/Person';
-import LoggedIn from '../components/LoginContext';
-import getUser from '../utils/userUtil';
+import React, { useContext } from "react";
+import { Nav, Navbar } from "react-bootstrap";
+import { Button } from "@material-ui/core";
+import PersonIcon from "@material-ui/icons/Person";
+import LoggedIn from "../components/LoginContext";
+import getUser from "../utils/userUtil";
 
 const NavBar = () => {
   const { loggedIn, setLoggedInHelper } = useContext(LoggedIn);
 
   const handleClick = async () => {
     if (!loggedIn.loggedIn) {
-      window.location.href = '/login';
+      window.location.href = "/login";
     } else {
-      const response = await fetch('/auth/logout');
+      const response = await fetch("/auth/logout");
 
       if (response.status === 200) {
         setLoggedInHelper(false, null, null, false);
-        window.location.href = '/';
+        window.location.href = "/";
       } else {
-        alert('Failed to log out. Please contact the developer.');
+        alert("Failed to log out. Please contact the developer.");
       }
     }
   };
@@ -49,7 +49,7 @@ const NavBar = () => {
         </span>
       )}
       <Button onClick={handleClick}>
-        {loggedIn.loggedIn ? 'Sign Out' : 'Sign In'}
+        {loggedIn.loggedIn ? "Sign Out" : "Sign In"}
       </Button>
     </Navbar>
   );
