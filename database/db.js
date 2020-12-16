@@ -4,7 +4,7 @@ const ObjectID = require("mongodb").ObjectID;
 
 const connectDB = async () => {
   const myDB = {};
-  const uri = "mongodb://localhost:27017";
+  const uri = process.env.MONGO_URL || "mongodb://localhost:27017";
 
   /* PART1: methods for posts collection, update method is not included */
 
