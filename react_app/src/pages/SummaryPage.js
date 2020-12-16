@@ -30,7 +30,7 @@ function SummaryPage() {
           />
         );
         // turn the title to a hyper link
-        let url = "/posts/details/".concat(posts[i]._id);
+        let url = "/posting/details/".concat(posts[i]._id);
         posts[i].title = (
           <a
             className="titleURL indigo-text"

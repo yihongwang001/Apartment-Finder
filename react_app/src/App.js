@@ -41,7 +41,7 @@ function App() {
         <div>
           <Switch>
             <Route path="/" component={PostSummaryPage} exact />
-            <Route path="/posts/details/:id" component={PostDetailsPage} />
+            <Route path="/posting/details/:id" component={PostDetailsPage} />
             <Route path="/admin" component={AdminPage} />
             <Route path="/savelist" component={SaveListPage} />
             <Route path="/login" render={(props) => <LoginPage {...props} />} />
