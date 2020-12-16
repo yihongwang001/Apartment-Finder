@@ -30,4 +30,8 @@ app.use("/auth", authRouter);
 app.use("/admin", adminRouter);
 app.use("/savelist", saveListRouter);
 
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "react_app/build", "index.html"));
+});
+
 module.exports = app;
