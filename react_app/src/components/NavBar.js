@@ -33,7 +33,7 @@ const NavBar = () => {
       <Nav className="mr-auto">
         {loginInfo.username !== null && (
           <Nav.Item as="li" className="p-1">
-            <Nav.Link href="/savelist">Save List</Nav.Link>
+            <Nav.Link href="/watchlist">Save List</Nav.Link>
           </Nav.Item>
         )}
         {loginInfo.adminAccess === true && (

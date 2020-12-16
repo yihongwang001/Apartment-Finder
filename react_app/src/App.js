@@ -43,7 +43,7 @@ function App() {
             <Route path="/" component={PostSummaryPage} exact />
             <Route path="/posting/details/:id" component={PostDetailsPage} />
             <Route path="/admin" component={AdminPage} />
-            <Route path="/savelist" component={SaveListPage} />
+            <Route path="/watchlist" component={SaveListPage} />
             <Route path="/login" render={(props) => <LoginPage {...props} />} />
             <Route path="/register" component={RegisterPage} />
           </Switch>
