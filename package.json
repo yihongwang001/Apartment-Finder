@@ -4,6 +4,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node ./bin/www",
+    "heroku-postbuild": "cd react_app && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "yeqing",
