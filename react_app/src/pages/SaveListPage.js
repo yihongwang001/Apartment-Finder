@@ -19,7 +19,7 @@ function SavelistPage() {
     if (savedPosts.length !== 0) {
       for (let i = 0; i < savedPosts.length; i++) {
         // turn the title to a hyper link
-        let url = "/posts/details/".concat(savedPosts[i]._id);
+        let url = "/posting/details/".concat(savedPosts[i]._id);
         savedPosts[i].title = (
           <a
             className="titleURL indigo-text"
