@@ -93,7 +93,7 @@ const RegisterPage = () => {
             </p>
 
             <MDBBtn type="submit" color="mdb-color" block>
-              Sign In
+              Register
             </MDBBtn>
           </Form>
         </div>
